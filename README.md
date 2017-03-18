@@ -19,3 +19,6 @@ $verisure->setCameraMotionDetectorState("XXXX YYYY", Verisure\SecuritasK::OFF); 
 
 ?>
 ```
+
+#### Thanks
+*[`persandstrom/python-verisure`](https://github.com/persandstrom/python-verisure/issues/65)*
