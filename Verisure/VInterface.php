@@ -52,7 +52,6 @@ class VInterface {
 		));
 		
 		$res = $this->httpInterface->execute(HTTPInterface::PUT);
-		print_r($res);
 	}
 }
 ?>
