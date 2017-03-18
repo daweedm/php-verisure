@@ -3,7 +3,7 @@ PHP library to easily interface with the Verisure API
 
 ## Installation
 ### Debian
-``` apt-get install git php5 php5-curl && git clone https://github.com/DaweedM/php-verisure.git```
+``` apt-get install git php5 php5-curl && git clone https://github.com/daweedm/php-verisure```
 
 ## Features
 - Switch on/off motion detector on smart cams
