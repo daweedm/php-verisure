@@ -1,16 +1,20 @@
 <?php
-class AutoLoader {
+
+class AutoLoader
+{
     protected static $paths = array();
-	
-    public static function addPath($path) {
+
+    public static function addPath($path)
+    {
         $path = realpath($path);
         if ($path) {
             self::$paths[] = $path;
         }
     }
 	
-    public static function load($class) {
-		
+    public static function load($class)
+    {
+
         $classPath = str_replace("\\", DIRECTORY_SEPARATOR, $class); // Do whatever logic here
         foreach (self::$paths as $path) {
             $maybePath = $path . DIRECTORY_SEPARATOR . $classPath . ".php";
@@ -21,6 +25,7 @@ class AutoLoader {
         }
     }
 }
+
 spl_autoload_register(array('AutoLoader', 'load'));
 AutoLoader::AddPath("php-verisure");
 ?>
