@@ -13,6 +13,7 @@ class AutoLoader {
 		
         $classPath = str_replace("\\", DIRECTORY_SEPARATOR, $class); // Do whatever logic here
         foreach (self::$paths as $path) {
+            $maybePath = $path . DIRECTORY_SEPARATOR . $classPath . ".php";
             if (is_file($maybePath)) {
                 require_once($maybePath);
                 break;

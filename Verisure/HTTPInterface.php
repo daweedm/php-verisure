@@ -13,10 +13,10 @@ class HTTPInterface {
 	private $ch = null;
 	private $session = null;
 	
-	public function __construct() {
+	public function __construct($verboseMode = false) {
 		$this->ch = curl_init();
 		curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+		curl_setopt($this->ch, CURLOPT_VERBOSE, $verboseMode);
 	}
 	
 	public function __destruct() {
