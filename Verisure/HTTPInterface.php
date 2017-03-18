@@ -70,7 +70,6 @@ class HTTPInterface {
 		}
 		
 		$res = curl_exec($this->ch);
-		echo $res;
 		return json_decode($res, false);
 	}
 }
