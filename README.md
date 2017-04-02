@@ -10,6 +10,7 @@ apt-get install git php5 php5-curl && git clone https://github.com/daweedm/php-v
 
 ## Features
 - Switch on/off motion detector on smart cams
+- Switch on/off smartplugs
 
 ## Usage example
 
