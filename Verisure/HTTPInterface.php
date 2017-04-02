@@ -14,6 +14,9 @@ class HTTPInterface
     private $ch = null;
     private $session = null;
 
+    private $workingDomain = 0;
+    private $lastPath = null;
+
     public function __construct($verboseMode = false)
     {
         $this->ch = curl_init();
@@ -26,9 +29,25 @@ class HTTPInterface
         curl_close($this->ch);
     }
 
-    public function setUrl($url)
+    public function setNextDomain() {
+        if ($this->workingDomain === count(SecuritasK::AVAILABLE_DOMAINS) - 1) {
+            $this->workingDomain = 0;
+        } else {
+            $this->workingDomain++;
+        }
+
+        curl_setopt($this->ch, CURLOPT_URL, $this->getDomain() . $this->lastPath);
+    }
+
+    public function getDomain() {
+        return SecuritasK::AVAILABLE_DOMAINS[$this->workingDomain];
+    }
+
+    public function setUrl($path)
     {
-        curl_setopt($this->ch, CURLOPT_URL, $url);
+        $this->lastPath = $path;
+
+        curl_setopt($this->ch, CURLOPT_URL, $this->getDomain() . $this->lastPath);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, null);
         curl_setopt($this->ch, CURLOPT_HTTPGET, true);
 
@@ -72,14 +91,25 @@ class HTTPInterface
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, json_encode($payload));
     }
 
-    public function execute($method = HTTPInterface::KEEP_CURRENT)
+    public function execute($method = HTTPInterface::KEEP_CURRENT, $recursiveCallsNumber = 0)
     {
         if ($method !== HTTPInterface::KEEP_CURRENT) {
             curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $method);
         }
 
         $res = curl_exec($this->ch);
-        return json_decode($res, false);
+        $jsonRes = json_decode($res, false);
+
+        if (is_object($jsonRes) && property_exists($jsonRes, "errorCode") && $jsonRes->errorCode === "SYS_00004") {
+            if ($recursiveCallsNumber === count(SecuritasK::AVAILABLE_DOMAINS)) {
+                throw new \Exception("No Verisure server is available at the moment. Please try again");
+            }
+            // Sequential test of available Verisure' servers if the current one returns the "XBN Database is not activated" error
+            $this->setNextDomain();
+            return $this->execute($method, ++$recursiveCallsNumber); // Try the same request with the next available domain else we keep the current working one in memory
+        }
+
+        return $jsonRes;
     }
 }
 

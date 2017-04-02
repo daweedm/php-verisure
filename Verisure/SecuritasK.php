@@ -10,7 +10,12 @@ class SecuritasK
 
     const INIT_MODE_AUTO = 1;
 
-    const URL_BASE = 'https://e-api.verisure.com/xbn/2/';
+    const AVAILABLE_DOMAINS = array(
+        "https://e-api01.verisure.com",
+        "https://e-api02.verisure.com"
+    );
+
+    const URL_BASE = '/xbn/2/';
     const URL_LOGIN = 'cookie';
     const GET_INSTALLATIONS_URL = 'installation/search?email=%s';
     const GET_CAMERA_STATE = 'device/%s/';

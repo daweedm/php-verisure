@@ -2,6 +2,7 @@
 PHP library to easily interface with the Verisure API
 
 ## Installation
+Requirements : **PHP >= 5.6** && **cURL extension** for PHP
 ### Debian
 ```bash
 apt-get install git php5 php5-curl && git clone https://github.com/daweedm/php-verisure

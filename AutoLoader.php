@@ -27,5 +27,5 @@ class AutoLoader
 }
 
 spl_autoload_register(array('AutoLoader', 'load'));
-AutoLoader::AddPath("php-verisure");
+AutoLoader::addPath("php-verisure");
 ?>

@@ -57,7 +57,7 @@ class Session
     public function setInstallation($installation)
     {
         if (!in_array($installation, $this->installations)) {
-            throw new Exception("Unknow installation");
+            throw new \Exception("Unknow installation");
         }
         $this->installation = $installation;
     }
@@ -75,7 +75,7 @@ class Session
     public function getGiid()
     {
         if (!$this->hasInstallation()) {
-            throw new Exception("No installation selected");
+            throw new \Exception("No installation selected");
         }
         return $this->installation->giid;
     }
