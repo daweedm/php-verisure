@@ -17,9 +17,13 @@ class SecuritasK
 
     const URL_BASE = '/xbn/2/';
     const URL_LOGIN = 'cookie';
+
     const GET_INSTALLATIONS_URL = 'installation/search?email=%s';
+
     const GET_CAMERA_STATE = 'device/%s/';
     const SET_CAMERA_STATE = 'installation/%s/device/%s/customerimagecamera/config';
+
+    const SET_SMARTPLUG_STATE = 'installation/%s/smartplug/state';
 }
 
 ?>

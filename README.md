@@ -12,6 +12,8 @@ apt-get install git php5 php5-curl && git clone https://github.com/daweedm/php-v
 - Switch on/off motion detector on smart cams
 
 ## Usage example
+
+### Setting camera motion detector state
 ```php 
 <?php
 require_once('php-verisure/AutoLoader.php');
@@ -19,7 +21,17 @@ $verisure = new Verisure\VInterface("YOUR_ACCOUNT_EMAIL", "YOUR_ACCOUNT_PASSWORD
 $verisure->login();
 $verisure->init();
 $verisure->setCameraMotionDetectorState("XXXX YYYY", Verisure\SecuritasK::OFF); // Your smartcam serial number
+?>
+```
 
+### Setting smartplug state
+```php 
+<?php
+require_once('php-verisure/AutoLoader.php');
+$verisure = new Verisure\VInterface("YOUR_ACCOUNT_EMAIL", "YOUR_ACCOUNT_PASSWORD");
+$verisure->login();
+$verisure->init();
+$verisure->setSmartPlugState("XXXX YYYY", Verisure\SecuritasK::OFF); // Your smartplug serial number
 ?>
 ```
 
