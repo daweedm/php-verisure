@@ -36,5 +36,19 @@ $verisure->setSmartPlugState("XXXX YYYY", Verisure\SecuritasK::OFF); // Your sma
 ?>
 ```
 
+### Setting the state of several smartplugs
+```php 
+<?php
+require_once('php-verisure/AutoLoader.php');
+$verisure = new Verisure\VInterface("YOUR_ACCOUNT_EMAIL", "YOUR_ACCOUNT_PASSWORD");
+$verisure->login();
+$verisure->init();
+$verisure->setMultipleSmartPlugsState(array(
+	["XXXX YYYY", Verisure\SecuritasK::OFF],
+	["XXXX YYYY", Verisure\SecuritasK::OFF]
+));
+?>
+```
+
 #### Thanks
 *[`persandstrom/python-verisure`](https://github.com/persandstrom/python-verisure/issues/65)*

@@ -1,4 +1,5 @@
 <?php
+
 namespace Verisure;
 
 class VInterface
@@ -55,6 +56,11 @@ class VInterface
 
     }
 
+    private function isValidSerialNumber($serialNumber)
+    {
+        return preg_match("/[a-zA-Z0-9]{4} [a-zA-Z0-9]{4}/i", $serialNumber);
+    }
+
     public function setCameraMotionDetectorState($cameraSerial = null, $state = SecuritasK::OFF)
     {
         if ($cameraSerial === null) {
@@ -75,22 +81,45 @@ class VInterface
         return $this->httpInterface->execute(HTTPInterface::PUT);
     }
 
-    public function setSmartPlugState($smartPlugSerial = null, $state = SecuritasK::OFF) {
-        if ($smartPlugSerial === null) {
-            throw new \Exception("Please provide the serial number of the smartplug");
+    public function setSmartPlugState($smartPlugSerial = null, $state = SecuritasK::OFF)
+    {
+        return $this->setMultipleSmartPlugsState([
+            $smartPlugSerial,
+            $state
+        ]);
+
+    }
+
+    public function setMultipleSmartPlugsState($smartPlugs)
+    {
+
+        foreach ($smartPlugs as $smartPlug) {
+            $serialNumber = $smartPlug[0];
+            $state = $smartPlug[1];
+            if (!$this->isValidSerialNumber($serialNumber)) {
+                throw new \Exception(sprintf("Wrong serial number format for entry : %s", $serialNumber));
+            }
+            if (!is_bool($state)) {
+                throw new \Exception(sprintf("The state must be a bool value : %s", $state));
+            }
         }
 
         $this->httpInterface->setUrl(
             sprintf(SecuritasK::URL_BASE . SecuritasK::SET_SMARTPLUG_STATE, $this->session->getGiid())
         );
 
-        $this->httpInterface->setPayload(array(
-            "deviceLabel" => $smartPlugSerial,
-            "state" => $state
-        ));
+        $this->httpInterface->setPayload(
+            array_map(function ($smartPlug) {
+                $serialNumber = $smartPlug[0];
+                $state = $smartPlug[1];
+                return array(
+                    "deviceLabel" => $serialNumber,
+                    "state" => $state
+                );
+            }, $smartPlugs)
+        );
 
         return $this->httpInterface->execute(HTTPInterface::POST);
-
     }
 }
 
